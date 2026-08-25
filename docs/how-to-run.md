@@ -43,9 +43,37 @@ Expected behavior:
 ## Package VSIX
 
 ```bash
-npm install -g @vscode/vsce
-vsce package
+npm run package
 ```
+
+This command generates a `.vsix` file in the project root.
+
+## Install Extension in VS Code (Without Marketplace)
+
+### Option 1: Install from VS Code UI
+
+1. Open VS Code.
+2. Go to Extensions.
+3. Open the Extensions menu (three dots).
+4. Select Install from VSIX....
+5. Select the generated `.vsix` file.
+6. Reload VS Code if prompted.
+
+### Option 2: Install from Terminal
+
+Run this command from the project root, replacing the file name with your generated package:
+
+```bash
+code --install-extension smart-file-creator-0.0.1.vsix
+```
+
+After installation, the extension is available in your normal VS Code session and does not require running with `F5`.
+
+## Update or Reinstall
+
+1. Rebuild and repackage the extension.
+2. Install the new `.vsix` again using one of the options above.
+3. Reload VS Code.
 
 ## Troubleshooting
 

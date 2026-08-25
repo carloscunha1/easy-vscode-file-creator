@@ -55,6 +55,23 @@ See [docs/how-to-run.md](docs/how-to-run.md) for local setup and packaging steps
 npm run package
 ```
 
+This command generates a `.vsix` package in the project root.
+
+## Install in VS Code (Without Marketplace)
+
+1. Open VS Code and go to Extensions.
+2. Open the Extensions menu (three dots) and select Install from VSIX....
+3. Choose the generated `.vsix` file.
+4. Reload VS Code if prompted.
+
+You can also install from terminal:
+
+```bash
+code --install-extension smart-file-creator-0.0.1.vsix
+```
+
+For full setup and troubleshooting steps, see [docs/how-to-run.md](docs/how-to-run.md).
+
 ## License
 
 MIT
