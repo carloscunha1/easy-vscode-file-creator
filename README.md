@@ -49,7 +49,7 @@ Run the extension in an Extension Development Host using `F5`.
 
 See [docs/how-to-run.md](docs/how-to-run.md) for local setup and packaging steps.
 
-## License
+## Packaging
 
 ```bash
 npm run package
