@@ -11,6 +11,7 @@ import {
 const IGNORED_DIRECTORIES = new Set(['.git', 'node_modules', '.vs', 'bin', 'obj', 'dist', 'out']);
 const AUTO_MATCH_THRESHOLD = 0.97;
 const SELECT_MATCH_THRESHOLD = 0.8;
+const VARIANT_AUTO_MATCH_THRESHOLD = 0.72;
 const MAX_SUGGESTIONS = 5;
 
 export function resolveFolderByHint(workspaceRoot: string, folderHint: string): ResolveFolderResult {
@@ -34,6 +35,15 @@ export function resolveFolderByHint(workspaceRoot: string, folderHint: string): 
       options: exactMatches.map((entry) => ({ name: entry.name, fullPath: entry.fullPath, score: 1 }))
     };
     return select;
+  }
+
+  const autoVariant = findConfidentVariantMatch(folderHint, allDirectories);
+  if (autoVariant) {
+    return {
+      status: 'resolved',
+      fullPath: autoVariant.fullPath,
+      reason: 'auto-similar'
+    };
   }
 
   const ranked = rankBySimilarity(folderHint, allDirectories);
@@ -114,12 +124,78 @@ function rankBySimilarity(folderHint: string, entries: DirectoryEntryInfo[]): Di
   return ranked.sort((a, b) => b.score - a.score);
 }
 
+function findConfidentVariantMatch(folderHint: string, entries: DirectoryEntryInfo[]): DirectoryCandidate | undefined {
+  const normalizedHint = normalizeText(folderHint);
+  const stemmedHint = stemFolderName(normalizedHint);
+
+  const candidates = entries
+    .map((entry) => {
+      const normalizedName = normalizeText(entry.name);
+      const stemmedName = stemFolderName(normalizedName);
+      return {
+        name: entry.name,
+        fullPath: entry.fullPath,
+        score: similarity(normalizedHint, normalizedName),
+        sameStem: stemmedHint === stemmedName
+      };
+    })
+    .filter((item) => item.sameStem)
+    .sort((a, b) => b.score - a.score);
+
+  if (candidates.length === 0) {
+    return undefined;
+  }
+
+  const best = candidates[0];
+  if (best.score < VARIANT_AUTO_MATCH_THRESHOLD) {
+    return undefined;
+  }
+
+  if (candidates.length > 1) {
+    const second = candidates[1];
+    const scoreGap = best.score - second.score;
+    if (scoreGap < 0.05) {
+      return undefined;
+    }
+  }
+
+  return {
+    name: best.name,
+    fullPath: best.fullPath,
+    score: best.score
+  };
+}
+
 function normalizeText(value: string): string {
   return value
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .trim();
+}
+
+function stemFolderName(value: string): string {
+  const compact = value.replace(/[^a-z0-9]/g, '');
+  if (compact.endsWith('ies') && compact.length > 3) {
+    return `${compact.slice(0, -3)}y`;
+  }
+
+  if (
+    (compact.endsWith('ses') ||
+      compact.endsWith('xes') ||
+      compact.endsWith('zes') ||
+      compact.endsWith('ches') ||
+      compact.endsWith('shes')) &&
+    compact.length > 4
+  ) {
+    return compact.slice(0, -2);
+  }
+
+  if (compact.endsWith('s') && compact.length > 3) {
+    return compact.slice(0, -1);
+  }
+
+  return compact;
 }
 
 function similarity(left: string, right: string): number {
