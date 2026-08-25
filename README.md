@@ -1,47 +1,46 @@
-# CommandFileCreator
+# Smart File Creator
 
-**Create files anywhere in your project using natural language commands**
+Create files and directories in your workspace with a short `new ...` command.
 
-A VS Code extension that lets you create new files by typing simple commands like `new usecase UserSignInUseCase.cs`. It automatically finds the target folder (even if deeply nested) and generates the file with appropriate templates based on your language.
+## Features
 
-# CommandFileCreator
+- Create files in the project root or in nested paths.
+- Create files inside a target folder found anywhere in the project tree.
+- Create directories without creating a file.
+- Generate starter templates for C#, TypeScript, JavaScript, Python, and Java.
 
-**Create files anywhere in your project using natural language commands**
+## Current Command Syntax
 
-A VS Code extension that lets you create new files by typing simple commands like `new usecase UserSignInUseCase.cs`. It automatically finds the target folder (even if deeply nested) and generates the file with appropriate templates based on your language.
+- `new filename.ext`
+- `new folder subdir/file.ext`
+- `new folder subdir/`
 
-## ✨ Features
+Note: The syntax is being expanded in the next releases. See the changelog for updates.
 
-- 🗣️ Create files using natural language: `new <folder> <filename.ext>`
-- 🔍 Automatically finds folders anywhere in your project
-- 📝 Auto-generates templates for C#, TypeScript, JavaScript, Python, and Java
-- ⌨️ Quick shortcut: `Ctrl+Shift+N` (Windows/Linux) or `Cmd+Shift+N` (Mac)
-- 📂 Works with deeply nested directories
+## Development
 
-## 🚀 Quick Start
+1. Install dependencies:
 
-1. Press `Ctrl+Shift+N` in VS Code
-2. Type: `new usecase UserSignInUseCase.cs`
-3. Press Enter → File created! ✅
-
-## 📋 Examples
-
-```
-new usecase UserSignInUseCase.cs
-new services AuthService.ts
-new components Button.tsx
-new models user_model.py
-new repositories UserRepository.java
+```bash
+npm install
 ```
 
-## 📥 Installation
+2. Build:
 
-Coming soon to VS Code Marketplace!
+```bash
+npm run esbuild
+```
 
-## 📖 Documentation
+3. Run extension host:
 
-See [how-to-run.md](docs/how-to-run.md) for detailed installation and usage instructions.
+- Press `F5` in VS Code.
 
-## 📄 License
+## Packaging
+
+```bash
+npm run package
+```
+
+## License
 
 MIT

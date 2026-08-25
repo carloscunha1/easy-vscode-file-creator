@@ -3,6 +3,29 @@
   "displayName": "Smart File Creator",
   "description": "Create files in nested folders using natural language",
   "version": "0.0.1",
+  "publisher": "carloscunha1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/carloscunha1/easy-vscode-file-creator.git"
+  },
+  "homepage": "https://github.com/carloscunha1/easy-vscode-file-creator",
+  "bugs": {
+    "url": "https://github.com/carloscunha1/easy-vscode-file-creator/issues"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "files",
+    "scaffold",
+    "templates",
+    "productivity",
+    "generator"
+  ],
+  "activationEvents": [
+    "onCommand:smartFileCreator.create"
+  ],
   "engines": {
     "vscode": "^1.80.0"
   },
@@ -27,9 +50,12 @@
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --platform=node --target=es2020",
     "esbuild": "npm run esbuild-base -- --sourcemap",
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "typecheck": "tsc --noEmit",
+    "package": "vsce package"
   },
   "devDependencies": {
+    "@vscode/vsce": "^3.6.2",
     "@types/node": "^20.19.43",
     "@types/vscode": "^1.80.0",
     "esbuild": "^0.20.0",
