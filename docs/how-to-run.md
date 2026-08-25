@@ -1,40 +1,65 @@
 # How to Run Smart File Creator
 
+This guide covers local development, manual testing, and packaging.
+
 ## Prerequisites
 
 - Node.js 18+
 - npm 9+
 - VS Code 1.80+
 
-## Install Dependencies
+## Install and Build
 
 ```bash
 npm install
-```
-
-## Build
-
-```bash
 npm run esbuild
 ```
 
-## Run in Extension Development Host
+## Run in Development Host
 
-1. Open the project in VS Code.
+1. Open the repository in VS Code.
 2. Press `F5`.
 3. In the Extension Development Host window, open a workspace folder.
-4. Press `Ctrl+Shift+N` (or `Cmd+Shift+N` on macOS).
 
-## Package a VSIX
+## Test Command Syntax
 
-```bash
-npm run package
+Press `Ctrl+Shift+N` (or `Cmd+Shift+N` on macOS) and run examples:
+
+```text
+new UserSignInUseCase.cs
+new application/usecases/CreateUserUseCase.cs
+new usecase handlers/CreateUserUseCase.cs
+new contracts/
+new usecase contracts/
 ```
 
-The command generates a `.vsix` file that can be installed with "Extensions: Install from VSIX".
+Expected behavior:
+
+- Files are created and opened automatically.
+- Directories are created without opening a file.
+- Target folder lookup is case-insensitive.
+- If no exact folder exists, similar folders may be auto-selected or suggested.
+
+## Package VSIX
+
+```bash
+npm install -g @vscode/vsce
+vsce package
+```
 
 ## Troubleshooting
 
-- If build fails, run `npm install` again.
-- If command does not appear, reload the extension host window.
-- If output looks stale, rebuild with `npm run esbuild` and restart debug session.
+### Command does not start
+
+- Ensure the extension is active in the Extension Development Host.
+- Open the command palette and run Smart File Creator command manually.
+
+### Folder not found
+
+- Verify the folder exists in the selected workspace.
+- Try a slightly different folder name to trigger similarity suggestions.
+
+### Build errors
+
+- Delete `node_modules` and reinstall dependencies.
+- Re-run `npm run esbuild`.
