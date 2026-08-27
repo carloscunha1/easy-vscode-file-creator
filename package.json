@@ -1,0 +1,61 @@
+{
+  "name": "smart-file-creator",
+  "displayName": "Smart File Creator",
+  "description": "Create files in nested folders using natural language",
+  "version": "0.0.1",
+  "publisher": "carloscunha1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/carloscunha1/easy-vscode-file-creator.git"
+  },
+  "homepage": "https://github.com/carloscunha1/easy-vscode-file-creator",
+  "bugs": {
+    "url": "https://github.com/carloscunha1/easy-vscode-file-creator/issues"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "files",
+    "scaffold",
+    "templates",
+    "productivity",
+    "generator"
+  ],
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "smartFileCreator.create",
+        "title": "Smart File Creator: New File"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "smartFileCreator.create",
+        "key": "ctrl+shift+n",
+        "mac": "cmd+shift+n"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --platform=node --target=es2020",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "test": "node ./out/test/runTest.js",
+    "typecheck": "tsc --noEmit",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^3.6.2",
+    "@types/node": "^20.19.43",
+    "@types/vscode": "^1.80.0",
+    "esbuild": "^0.20.0",
+    "typescript": "^5.0.0"
+  }
+}
